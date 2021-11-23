@@ -1,40 +1,54 @@
-class Alphabet:
-    def __repr_(self):
-        return self.__str__()
+class Boobs:
+    def __init__(self, size):
+        self.boobs_size = size
 
-class EnglishAlphabet(Alphabet):
-    def __str__(self) -> str:
-        return "English alphabet"
+class EnormousBoobs(Boobs):
+    def __init__(self):
+        super().__init__(size="enourmous")
 
-class GeorgianAlphabet(Alphabet):
-    def __str__(self) -> str:
-        return "Georgian alphabet"
+class BigBoobs(Boobs):
+    def __init__(self):
+        super().__init__(size="big")
+    
+class SmallBoobs(Boobs):
+    def __init__(self):
+        super().__init__(size="small")
 
-class RussianAlphabet(Alphabet):
-    def __str__(self) -> str:
-        return "Russian alphabet"
+class Woman:
+    name = ""
+    boobs_size = ""
+    def __init__(self):
+        pass
+    def ask_name(self):
+        raise AttributeError("Yout haven't asked her name")
+    def estimate_boobs(self):
+        raise AttributeError("Yout don't know the size of the boobs!")
+    def suck_dick(self):
+        print("{} sucks your dick".format(self.name))
+    def dirty_talk(self):
+        print("Oh, I'm a dirty girl")
+    def do_titjob(self):
+        print("She starts to do a titjob with her {} boobs".format(self.boobs_size))
 
-class Language:
-    alphabet = ""
-    def __str__(self):
-        return self.alphabet.__str__()
-    def __repr__(self):
-        return self.alphabet.__repr__()
-    def set_alphabet(self):
-        raise AttributeError("No Implemented Alphabet")
 
-class EnglishLanguage(Language):
-    def set_alphabet(self):
-        self.alphabet = EnglishAlphabet()
+class HotBrunette(Woman):
+    def __init__(self):
+        super(Woman, self,).__init__()
+    def ask_name(self):
+        self.name = "Vitalina"
+    def estimate_boobs(self):
+        self.boobs_size = BigBoobs()
 
-class GeorgianAlphabet(Language):
-    def set_alphabet(self):
-        self.alphabet = GeorgianAlphabet()
+class AesteticGinger(Woman):
+    def __init__(self):
+        super(Woman, self).__init__()
+    def estimate_boobs(self):
+        self.boobs_size = SmallBoobs()
 
-class RussianAlphabet(Language):
-    def set_alphabet(self):
-        self.alphabet = RussianAlphabet()
 
-l1 = EnglishLanguage()
-l1.set_alphabet()
-print(str(l1))
+whore = HotBrunette()
+whore.estimate_boobs()
+whore.ask_name()
+whore.dirty_talk()
+whore.do_titjob()
+whore.suck_dick()
