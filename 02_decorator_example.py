@@ -1,0 +1,97 @@
+class Component():
+    """
+    Базовый интерфейс Компонента определяет поведение,
+    которое изменяется декораторами.
+    """
+
+    def operation(self) -> str:
+        pass
+
+class ConcreteComponent(Component):
+    """
+    Конкретные Компоненты представляют реализации поведения
+    по умолчанию. Может быть несколько вариаций этих классов.
+    """
+
+    def operation(self) -> str:
+        return "ConcreteComponent"
+
+class Decorator(Component):
+    """
+    Базовый класс Декоратора следует тому же интерфейсу, что
+    и другие компоненты. Основная цель этого класса определить
+    интерфейс обертки для всех конкретных декораторов.
+    Реализация кода обертки по умолчанию может включать в себя
+    поле для хранения завернутого компонента и средства его 
+    инициализации.
+    """
+
+    _component: Component = None
+
+    def __init__(self, component: Component) -> None:
+        self._component = component
+
+    @property
+    def component(self) -> str:
+        """
+        Декоратор делегирует всю работу обернутому компоненту
+        """
+
+        return self._component
+
+    def operation(self) -> str:
+        return self._component.operation()
+
+class ConcreteDecoratorA(Decorator):
+    """
+    Конкретные декораторы вызывают обёрнутый объект
+    и изменяют его результат некоторым образом
+    """
+
+    def operation(self) -> str:
+        """
+        Декораторы могут вызывать родительскую реализацию
+        операции, вместо того, чтобы вызвать обёрнутый объект
+        напрямую. Такой объект упрощает расширение классов 
+        декораторов
+        """
+        return f"ConcreteDecoratorA({self.component.operation()})"
+
+class ConcreteDecoratorB(Decorator):
+    """
+    Декораторы могут выполнть свое поведение до или 
+    после вызова обернутого объекта.
+    """
+
+    def operation(self) -> str:
+        return f"ConcreteDecoratorB({self.component.operation()})"
+
+def client_code(component: Component) -> None:
+    """
+    Клиентский код работает со всеми объектами, используя 
+    интерфейс компонента. Таким образом, он остается независимым
+    от конкретных классов компонентов, с которыми работает.
+    """
+
+    # ...
+
+    print(f"RESULT: {component.operation()}", end="")
+
+    # ...
+
+
+if __name__ == "__main__":
+    # Таким образом, клиентский код может поддерживать как простые компоненты...
+    simple = ConcreteComponent()
+    print("Client: I've got a simple component:")
+    client_code(simple)
+    print("\n")
+
+    # ...так и декорированные.
+    #
+    # Обратите внимание, что декораторы могут обёртывать не только простые
+    # компоненты, но и другие декораторы.
+    decorator1 = ConcreteDecoratorA(simple)
+    decorator2 = ConcreteDecoratorB(decorator1)
+    print("Client: Now I've got a decorated component:")
+    client_code(decorator2)
